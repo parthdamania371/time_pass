@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Special Question 😄</title>
 
 <style>
+    :root {
+        --page-padding: clamp(16px, 4vw, 28px);
+    }
+
     body {
         margin: 0;
         min-height: 100vh;
+        min-height: 100svh;
         text-align: center;
         font-family: "Trebuchet MS", "Segoe UI", sans-serif;
         color: #ffffff;
@@ -26,6 +32,12 @@
     body > * {
         position: relative;
         z-index: 1;
+    }
+
+    .content {
+        width: min(92vw, 760px);
+        margin: 0 auto;
+        padding: clamp(34px, 8vh, 100px) var(--page-padding) 0;
     }
 
     body::before,
@@ -98,10 +110,11 @@
     }
 
     h1 {
-        margin-top: 100px;
+        margin: 0;
         font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        font-size: 3.2rem;
-        letter-spacing: 2px;
+        font-size: clamp(2.2rem, 7vw, 3.2rem);
+        line-height: 1.05;
+        letter-spacing: clamp(1px, 0.4vw, 2px);
         text-transform: uppercase;
         text-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 18px rgba(86, 198, 255, 0.18);
         transition: color 0.7s ease, text-shadow 0.7s ease;
@@ -114,12 +127,13 @@
 
     .btn {
         padding: 12px 25px;
-        font-size: 18px;
+        font-size: clamp(16px, 4vw, 18px);
         border: none;
-        border-radius: 10px;
+        border-radius: 12px;
         cursor: pointer;
         position: fixed;
         box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+        -webkit-tap-highlight-color: transparent;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -133,6 +147,7 @@
         color: white;
         left: 40%;
         top: 60%;
+        min-width: 92px;
         transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.6s ease;
     }
 
@@ -141,6 +156,7 @@
         color: white;
         left: 55%;
         top: 60%;
+        min-width: 92px;
         will-change: left, top;
         transition:
             left 0.38s cubic-bezier(0.22, 1, 0.36, 1),
@@ -155,8 +171,10 @@
     }
 
     #message {
-        margin-top: 200px;
-        font-size: 24px;
+        margin-top: clamp(150px, 36vh, 260px);
+        padding-inline: 10px;
+        font-size: clamp(20px, 5vw, 24px);
+        line-height: 1.35;
         color: #ffe9f4;
         display: block;
         opacity: 0;
@@ -229,17 +247,65 @@
             opacity: 0.95;
         }
     }
+
+    @media (max-width: 640px) {
+        .content {
+            width: min(94vw, 540px);
+            padding-top: clamp(26px, 7vh, 54px);
+        }
+
+        h1 {
+            font-size: clamp(1.95rem, 9vw, 2.6rem);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            min-width: 88px;
+        }
+
+        #yes {
+            left: 22%;
+            top: 68%;
+        }
+
+        #no {
+            left: 56%;
+            top: 68%;
+        }
+
+        #message {
+            margin-top: clamp(180px, 42vh, 320px);
+            font-size: clamp(18px, 5.4vw, 22px);
+        }
+    }
+
+    @media (max-width: 420px) {
+        #yes {
+            left: 16%;
+            top: 70%;
+        }
+
+        #no {
+            left: 57%;
+            top: 70%;
+        }
+
+        #message {
+            margin-top: clamp(200px, 46vh, 340px);
+        }
+    }
 </style>
 </head>
 
 <body>
-
+<div class="content">
 <h1>Will you play BGMI with me? 🎮😄</h1>
 
 <button id="yes" class="btn">Yes</button>
 <button id="no" class="btn">No</button>
 
 <div id="message">Let's play BGMI Shreya ❤️🔥</div>
+</div>
 <div class="emoji-shower" id="emojiShower" aria-hidden="true"></div>
 
 <script>
@@ -270,7 +336,7 @@
         const emoji = document.createElement("span");
         emoji.className = "emoji-drop";
         emoji.textContent = gameEmojis[Math.floor(Math.random() * gameEmojis.length)];
-        emoji.style.setProperty("--x", Math.random() * window.innerWidth + "px");
+        emoji.style.setProperty("--x", Math.random() * Math.max(window.innerWidth - 40, 0) + "px");
         emoji.style.setProperty("--drift", (Math.random() * 180 - 90) + "px");
         emoji.style.setProperty("--spin", (Math.random() * 720 - 360) + "deg");
         emoji.style.setProperty("--size", (1.6 + Math.random() * 1.6).toFixed(2) + "rem");
@@ -302,8 +368,7 @@
         }, 3000);
     }
 
-    // Move "No" button randomly
-    noBtn.addEventListener("mouseenter", function() {
+    function moveNoButton() {
         const rect = noBtn.getBoundingClientRect();
         const maxX = Math.max(edgePadding, window.innerWidth - rect.width - edgePadding);
         const maxY = Math.max(edgePadding, window.innerHeight - rect.height - edgePadding);
@@ -312,7 +377,14 @@
 
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
-    });
+    }
+
+    // Move "No" button randomly
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", function(event) {
+        event.preventDefault();
+        moveNoButton();
+    }, { passive: false });
 
     keepButtonInsideScreen(noBtn);
     keepButtonInsideScreen(yesBtn);
