@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Special Question 😄</title>
+
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        text-align: center;
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        color: #ffffff;
+        overflow: hidden;
+        position: relative;
+        isolation: isolate;
+        background:
+            radial-gradient(circle at 50% 100%, rgba(46, 139, 255, 0.36), transparent 34%),
+            radial-gradient(circle at 14% 18%, rgba(76, 226, 255, 0.2), transparent 24%),
+            radial-gradient(circle at 84% 16%, rgba(112, 160, 255, 0.18), transparent 24%),
+            linear-gradient(180deg, #07111f 0%, #0f2644 45%, #040812 100%);
+        background-attachment: fixed;
+        transition: background 0.9s ease;
+    }
+
+    body > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    body::before,
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        transition: background 0.9s ease, opacity 0.9s ease, filter 0.9s ease;
+    }
+
+    body::before {
+        background:
+            radial-gradient(circle at 30% 35%, rgba(132, 232, 255, 0.16), transparent 18%),
+            radial-gradient(circle at 70% 68%, rgba(94, 138, 255, 0.18), transparent 20%),
+            linear-gradient(rgba(120, 192, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(120, 192, 255, 0.1) 1px, transparent 1px);
+        background-size: auto, auto, 54px 54px, 54px 54px;
+        clip-path: polygon(0 64%, 100% 52%, 100% 100%, 0 100%);
+        opacity: 0.5;
+        transform: perspective(900px) rotateX(73deg) scale(1.55);
+        transform-origin: center bottom;
+        animation: tacticalScan 16s linear infinite;
+    }
+
+    body::after {
+        background:
+            radial-gradient(circle at 18% 78%, rgba(72, 174, 255, 0.2), transparent 0 26%),
+            radial-gradient(circle at 85% 75%, rgba(114, 226, 255, 0.16), transparent 0 22%),
+            radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.1), transparent 0 36%),
+            repeating-linear-gradient(115deg,
+                transparent 0 32px,
+                rgba(121, 196, 255, 0.05) 32px 34px,
+                transparent 34px 74px);
+        filter: blur(1px);
+        opacity: 0.7;
+        animation: smokeShift 18s ease-in-out infinite;
+    }
+
+    body.yes-mode {
+        background:
+            radial-gradient(circle at 50% 100%, rgba(255, 89, 156, 0.46), transparent 34%),
+            radial-gradient(circle at 18% 20%, rgba(255, 209, 229, 0.24), transparent 24%),
+            radial-gradient(circle at 82% 16%, rgba(255, 133, 186, 0.24), transparent 24%),
+            linear-gradient(180deg, #351228 0%, #66254a 46%, #170911 100%);
+    }
+
+    body.yes-mode::before {
+        background:
+            radial-gradient(circle at 28% 32%, rgba(255, 233, 243, 0.16), transparent 18%),
+            radial-gradient(circle at 72% 66%, rgba(255, 121, 180, 0.2), transparent 20%),
+            linear-gradient(rgba(255, 196, 223, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 196, 223, 0.1) 1px, transparent 1px);
+        background-size: auto, auto, 54px 54px, 54px 54px;
+        opacity: 0.6;
+    }
+
+    body.yes-mode::after {
+        background:
+            radial-gradient(circle at 18% 78%, rgba(255, 136, 183, 0.24), transparent 0 26%),
+            radial-gradient(circle at 85% 74%, rgba(255, 190, 220, 0.22), transparent 0 22%),
+            radial-gradient(circle at 50% 43%, rgba(255, 255, 255, 0.12), transparent 0 36%),
+            repeating-linear-gradient(115deg,
+                transparent 0 32px,
+                rgba(255, 214, 232, 0.05) 32px 34px,
+                transparent 34px 74px);
+        opacity: 0.82;
+        filter: blur(1.2px) saturate(1.15);
+    }
+
+    h1 {
+        margin-top: 100px;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: 3.2rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 18px rgba(86, 198, 255, 0.18);
+        transition: color 0.7s ease, text-shadow 0.7s ease;
+    }
+
+    body.yes-mode h1 {
+        color: #ffe6f1;
+        text-shadow: 0 12px 34px rgba(255, 111, 167, 0.35);
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        position: fixed;
+        box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    #yes {
+        background: linear-gradient(135deg, #35d07f, #199c6c);
+        color: white;
+        left: 40%;
+        top: 60%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.6s ease;
+    }
+
+    #no {
+        background: linear-gradient(135deg, #ff6b6b, #ff355f);
+        color: white;
+        left: 55%;
+        top: 60%;
+        will-change: left, top;
+        transition:
+            left 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+            top 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    body.yes-mode #yes {
+        background: linear-gradient(135deg, #ff7eb3, #ff4f96);
+        box-shadow: 0 18px 40px rgba(255, 92, 156, 0.35);
+    }
+
+    #message {
+        margin-top: 200px;
+        font-size: 24px;
+        color: #ffe9f4;
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        text-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        letter-spacing: 0.5px;
+        transform: translateY(18px);
+        transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+    }
+
+    body.yes-mode #message {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .emoji-shower {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 4;
+    }
+
+    .emoji-drop {
+        position: absolute;
+        top: -12vh;
+        left: 0;
+        font-size: var(--size, 2rem);
+        opacity: 0.95;
+        transform: translateX(var(--x, 0)) rotate(0deg);
+        animation: emojiFall var(--duration, 3.6s) linear forwards;
+        filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+    }
+
+    @keyframes tacticalScan {
+        0% {
+            transform: perspective(900px) rotateX(73deg) scale(1.55) translateY(0);
+        }
+        50% {
+            transform: perspective(900px) rotateX(73deg) scale(1.6) translateY(-10px);
+        }
+        100% {
+            transform: perspective(900px) rotateX(73deg) scale(1.55) translateY(0);
+        }
+    }
+
+    @keyframes smokeShift {
+        0% {
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+            transform: translate3d(-18px, 10px, 0) scale(1.03);
+        }
+        100% {
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+    }
+
+    @keyframes emojiFall {
+        0% {
+            transform: translate3d(var(--x, 0), -12vh, 0) rotate(0deg);
+            opacity: 0;
+        }
+        12% {
+            opacity: 1;
+        }
+        100% {
+            transform: translate3d(calc(var(--x, 0) + var(--drift, 0px)), 110vh, 0) rotate(var(--spin, 360deg));
+            opacity: 0.95;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Will you play BGMI with me? 🎮😄</h1>
+
+<button id="yes" class="btn">Yes</button>
+<button id="no" class="btn">No</button>
+
+<div id="message">Let's play BGMI Shreya ❤️🔥</div>
+<div class="emoji-shower" id="emojiShower" aria-hidden="true"></div>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const emojiShower = document.getElementById("emojiShower");
+    const edgePadding = 24;
+    const gameEmojis = ["🎮", "🕹️", "🎯", "🏆", "👾", "🔥"];
+    let emojiBurstTimer;
+    let emojiBurstStopTimer;
+
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+    }
+
+    function keepButtonInsideScreen(button) {
+        const rect = button.getBoundingClientRect();
+        const maxX = Math.max(edgePadding, window.innerWidth - rect.width - edgePadding);
+        const maxY = Math.max(edgePadding, window.innerHeight - rect.height - edgePadding);
+        const currentLeft = rect.left;
+        const currentTop = rect.top;
+
+        button.style.left = clamp(currentLeft, edgePadding, maxX) + "px";
+        button.style.top = clamp(currentTop, edgePadding, maxY) + "px";
+    }
+
+    function createEmojiDrop() {
+        const emoji = document.createElement("span");
+        emoji.className = "emoji-drop";
+        emoji.textContent = gameEmojis[Math.floor(Math.random() * gameEmojis.length)];
+        emoji.style.setProperty("--x", Math.random() * window.innerWidth + "px");
+        emoji.style.setProperty("--drift", (Math.random() * 180 - 90) + "px");
+        emoji.style.setProperty("--spin", (Math.random() * 720 - 360) + "deg");
+        emoji.style.setProperty("--size", (1.6 + Math.random() * 1.6).toFixed(2) + "rem");
+        emoji.style.setProperty("--duration", (2.8 + Math.random() * 1.6).toFixed(2) + "s");
+        emojiShower.appendChild(emoji);
+
+        emoji.addEventListener("animationend", function() {
+            emoji.remove();
+        });
+    }
+
+    function startEmojiShower() {
+        clearInterval(emojiBurstTimer);
+        clearTimeout(emojiBurstStopTimer);
+        emojiShower.innerHTML = "";
+
+        for (let i = 0; i < 10; i += 1) {
+            createEmojiDrop();
+        }
+
+        emojiBurstTimer = window.setInterval(function() {
+            for (let i = 0; i < 4; i += 1) {
+                createEmojiDrop();
+            }
+        }, 180);
+
+        emojiBurstStopTimer = window.setTimeout(function() {
+            clearInterval(emojiBurstTimer);
+        }, 3000);
+    }
+
+    // Move "No" button randomly
+    noBtn.addEventListener("mouseenter", function() {
+        const rect = noBtn.getBoundingClientRect();
+        const maxX = Math.max(edgePadding, window.innerWidth - rect.width - edgePadding);
+        const maxY = Math.max(edgePadding, window.innerHeight - rect.height - edgePadding);
+        const x = edgePadding + Math.random() * (maxX - edgePadding);
+        const y = edgePadding + Math.random() * (maxY - edgePadding);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    });
+
+    keepButtonInsideScreen(noBtn);
+    keepButtonInsideScreen(yesBtn);
+    window.addEventListener("resize", function() {
+        keepButtonInsideScreen(noBtn);
+        keepButtonInsideScreen(yesBtn);
+    });
+
+    // When "Yes" clicked
+    yesBtn.addEventListener("click", function() {
+        document.body.classList.add("yes-mode");
+        startEmojiShower();
+    });
+</script>
+
+</body>
+</html>
